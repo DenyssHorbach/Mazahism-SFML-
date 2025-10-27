@@ -27,8 +27,8 @@ bool intersects(const sf::FloatRect& a, const sf::FloatRect& b)
 bool gameOverPlayed = false;
 float spriteSpeed = 600.f;
 
-float ballSpeedY = 300.f;
-float ballSpeedX = 700.f;
+float ballSpeedY = 250.f;
+float ballSpeedX = 900.f;
 
 int varScore1 = 0;
 bool scored1 = false;
