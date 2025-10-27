@@ -25,8 +25,8 @@ bool intersects(const sf::FloatRect& a, const sf::FloatRect& b)
 }
 
 bool gameOverPlayed = false;
-float spriteSpeed = 500.f;
-bool ballDirValue = 0;
+float spriteSpeed = 600.f;
+
 float ballSpeedY = 300.f;
 float ballSpeedX = 700.f;
 
@@ -45,6 +45,13 @@ int Draw() {
     sf::RenderWindow window(sf::VideoMode({ 1200, 720 }), "Tennis");
 
     sf::Clock clock;
+
+    waitingForRespawn = true;
+    respawnTimer = 1.5f;
+    lastScoredByLeft = false; 
+    ballDir = STOP;
+    ballDirY = STOP_BALL_Y;
+
 
     sf::SoundBuffer over;
     if (!over.loadFromFile("audio/gameOverSound.wav")) {
@@ -120,9 +127,11 @@ int Draw() {
     sprite2.setPosition({ 1200.f - 30, (720 / 2) - 100.f });
     sprite2.setScale({ 0.6f, 0.6f });
 
-    ballSprite.setPosition({ (1200 / 2) - 42.f, (720 / 2) - 42.f });
     ballSprite.setScale({ 0.3f, 0.3f });
-
+    sf::FloatRect ballBounds = ballSprite.getGlobalBounds();
+    ballSprite.setPosition({ (1200.f - ballBounds.size.x) / 2.f,
+                                         (720.f - ballBounds.size.y) / 2.f });
+    
     sf::FloatRect palkaBounds = palka.getGlobalBounds();
     palka.setPosition({ (1200 - palkaBounds.size.x) / 2.f, 0.f });
     //palka.setScale({})
@@ -170,7 +179,7 @@ int Draw() {
             sprite2.move({ 0.f, spriteSpeed * deltaTime });
 
         sf::Vector2f ballPos = ballSprite.getPosition();
-        sf::FloatRect ballBounds = ballSprite.getGlobalBounds();
+        
         sprite2Bounds = sprite2.getGlobalBounds();
         spriteBounds = sprite.getGlobalBounds();
 
@@ -259,7 +268,7 @@ int Draw() {
                                          (720.f - ballBounds.size.y) / 2.f });
                 ballDir = STOP;
                 waitingForRespawn = true;
-                respawnTimer = 2.0f;
+                respawnTimer = 1.0f;
             }
             else if (ballPos.x + ballBounds.size.x >= 1200.f && !scored1) {
                 varScore1++;
@@ -270,7 +279,7 @@ int Draw() {
                                          (720.f - ballBounds.size.y) / 2.f });
                 ballDir = STOP;
                 waitingForRespawn = true;
-                respawnTimer = 2.0f;
+                respawnTimer = 1.0f;
             }
         }
         else {
@@ -279,6 +288,11 @@ int Draw() {
                 waitingForRespawn = false;
                 ballDir = lastScoredByLeft ? RIGHT : LEFT;
                 scored1 = scored2 = false;
+                int randStart = rand() % 2;
+                if (randStart == 0)
+                    ballDirY = UP_BALL;
+                else
+                    ballDirY = DOWN_BALL;
             }
         }
 
