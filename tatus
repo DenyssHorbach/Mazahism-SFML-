@@ -1,0 +1,11 @@
+[33mcommit 7d16965d8cded25d69ffc94ab4d417bea57be3a5[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Denys <Denys@DENYSS>
+Date:   Mon Oct 27 00:23:35 2025 +0200
+
+    Add project files.
+
+[33mcommit b8ba677fdc04e728aee4263147bb007f2eb36d42[m
+Author: Denys <Denys@DENYSS>
+Date:   Mon Oct 27 00:23:32 2025 +0200
+
+    Add .gitattributes and .gitignore.

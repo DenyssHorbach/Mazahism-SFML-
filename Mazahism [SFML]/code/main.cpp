@@ -25,8 +25,10 @@ bool intersects(const sf::FloatRect& a, const sf::FloatRect& b)
 }
 
 bool gameOverPlayed = false;
+float spriteSpeed = 500.f;
 bool ballDirValue = 0;
 float ballSpeedY = 300.f;
+float ballSpeedX = 700.f;
 
 int varScore1 = 0;
 bool scored1 = false;
@@ -157,15 +159,15 @@ int Draw() {
 
         sf::FloatRect spriteBounds = sprite.getGlobalBounds();
         if (dir == UP1 && spriteBounds.position.y > 0.f)
-            sprite.move({ 0.f, -500.f * deltaTime });
+            sprite.move({ 0.f, -spriteSpeed * deltaTime });
         if (dir == DOWN1 && spriteBounds.position.y + spriteBounds.size.y < 720.f)
-            sprite.move({ 0.f, 500.f * deltaTime });
+            sprite.move({ 0.f, spriteSpeed * deltaTime });
 
         sf::FloatRect sprite2Bounds = sprite2.getGlobalBounds();
         if (dir2 == UP2 && sprite2Bounds.position.y > 0.f)
-            sprite2.move({ 0.f, -500.f * deltaTime });
+            sprite2.move({ 0.f, -spriteSpeed * deltaTime });
         if (dir2 == DOWN2 && sprite2Bounds.position.y + sprite2Bounds.size.y < 720.f)
-            sprite2.move({ 0.f, 500.f * deltaTime });
+            sprite2.move({ 0.f, spriteSpeed * deltaTime });
 
         sf::Vector2f ballPos = ballSprite.getPosition();
         sf::FloatRect ballBounds = ballSprite.getGlobalBounds();
@@ -176,10 +178,10 @@ int Draw() {
         switch (ballDir)
         {
         case LEFT:
-            ballSprite.move({ -500.0f * deltaTime, 0.0f });
+            ballSprite.move({ -ballSpeedX * deltaTime, 0.0f });
             break;
         case RIGHT:
-            ballSprite.move({ 500.0f * deltaTime, 0.0f });
+            ballSprite.move({ ballSpeedX * deltaTime, 0.0f });
             break;
         case STOP:
             ballSprite.move({ 0.f, 0.f });
@@ -223,8 +225,13 @@ int Draw() {
                 if (ballDir == LEFT) {
                     ballDir = RIGHT;
                 }
-                else
+                else {
                     ballDir = LEFT;
+                }
+                if (dir2 == UP2)
+                    ballDirY = UP_BALL;
+                else if (dir2 == DOWN2)
+                    ballDirY = DOWN_BALL;
                 rico.play();
             }
             else if (intersects(ballBounds, spriteBounds)) {
@@ -233,6 +240,10 @@ int Draw() {
                 }
                 else
                     ballDir = LEFT;
+                if (dir == UP1)
+                    ballDirY = UP_BALL;
+                else if (dir == DOWN1)
+                    ballDirY = DOWN_BALL;
                 rico.play();
             }
         }
