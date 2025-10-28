@@ -336,10 +336,11 @@ int Draw() {
 }
 
 
-int main()
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
     Draw();
     return 0;
 }
 
-//Test comment 
+
