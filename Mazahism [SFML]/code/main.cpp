@@ -63,6 +63,11 @@ int Draw() {
         return -1;
     }
 
+	sf::SoundBuffer scoreSound;
+    if (!scoreSound.loadFromFile("audio/scoreIncrement.wav")) {
+        return -1;
+    }
+
     sf::Texture endTexture;
     if (!endTexture.loadFromFile("images/end.png")) {
         return -1;
@@ -120,6 +125,9 @@ int Draw() {
 
     sf::Sound endGame(over);
     endGame.setBuffer(over);
+
+    sf::Sound scoreInc(scoreSound);
+	scoreInc.setBuffer(scoreSound);
 
     sprite.setPosition({ 30.f, (720 / 2) - 100.f });
     sprite.setScale({ 0.6f, 0.6f });
@@ -184,19 +192,21 @@ int Draw() {
         spriteBounds = sprite.getGlobalBounds();
 
 
-        switch (ballDir)
-        {
-        case LEFT:
-            ballSprite.move({ -ballSpeedX * deltaTime, 0.0f });
-            break;
-        case RIGHT:
-            ballSprite.move({ ballSpeedX * deltaTime, 0.0f });
-            break;
-        case STOP:
-            ballSprite.move({ 0.f, 0.f });
-            break;
-        default:
-            break;
+        if (!waitingForRespawn) {
+            switch (ballDir)
+            {
+            case LEFT:
+                ballSprite.move({ -ballSpeedX * deltaTime, 0.0f });
+                break;
+            case RIGHT:
+                ballSprite.move({ ballSpeedX * deltaTime, 0.0f });
+                break;
+            case STOP:
+                ballSprite.move({ 0.f, 0.f });
+                break;
+            default:
+                break;
+            }
         }
 
         if (!waitingForRespawn) {
@@ -267,6 +277,7 @@ int Draw() {
                 ballSprite.setPosition({ (1200.f - ballBounds.size.x) / 2.f,
                                          (720.f - ballBounds.size.y) / 2.f });
                 ballDir = STOP;
+				scoreInc.play();
                 waitingForRespawn = true;
                 respawnTimer = 1.0f;
             }
@@ -278,6 +289,7 @@ int Draw() {
                 ballSprite.setPosition({ (1200.f - ballBounds.size.x) / 2.f,
                                          (720.f - ballBounds.size.y) / 2.f });
                 ballDir = STOP;
+                scoreInc.play();
                 waitingForRespawn = true;
                 respawnTimer = 1.0f;
             }
